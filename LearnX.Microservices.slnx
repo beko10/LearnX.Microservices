@@ -1,0 +1,25 @@
+<Solution>
+  <Folder Name="/src/" />
+  <Folder Name="/src/BuildingBlocks/">
+    <Project Path="D:/LearnX.Microservices/src/BuildingBlocks/BuildingBlocks.Core/BuildingBlocks.Core.csproj" Id="36d46a71-776c-43cf-8567-fe446fbfa25e" />
+  </Folder>
+  <Folder Name="/src/Services/" />
+  <Folder Name="/src/Services/CatalogService/" />
+  <Folder Name="/src/Services/CatalogService/Core/">
+    <Project Path="D:/LearnX.Microservices/src/Services/CatalogService/Core/CatalogService.Application/CatalogService.Application.csproj" Id="9425ca61-611f-4fa5-8e74-c577b55a77fe" />
+    <Project Path="D:/LearnX.Microservices/src/Services/CatalogService/Core/CatalogService.Domain/CatalogService.Domain.csproj" Id="96103f29-dc38-4b52-8192-da1544c37aee" />
+  </Folder>
+  <Folder Name="/src/Services/CatalogService/Infrastructure/">
+    <Project Path="D:/LearnX.Microservices/src/Services/CatalogService/Infrastructure/CatalogService.Infrastructure/CatalogService.Infrastructure.csproj" Id="baa1d474-2c56-4e3c-a511-04490412db61" />
+    <Project Path="D:/LearnX.Microservices/src/Services/CatalogService/Infrastructure/CatalogService.Persistance/CatalogService.Persistance.csproj" Id="50ee825e-4fe2-41af-8d9d-1c824e8f722b" />
+  </Folder>
+  <Folder Name="/src/Services/CatalogService/Presentation/">
+    <Project Path="D:/LearnX.Microservices/src/Services/CatalogService/Presentation/CategoryCatalog.API/CategoryCatalog.API.csproj" Id="5083bac7-33a0-4751-b6c3-72b81adfe4b8" />
+  </Folder>
+  <Folder Name="/Çözüm Öğeleri/">
+    <File Path=".gitignore" />
+  </Folder>
+  <Project Path="D:/LearnX.Microservices/docker-compose.dcproj">
+    <Build />
+  </Project>
+</Solution>
