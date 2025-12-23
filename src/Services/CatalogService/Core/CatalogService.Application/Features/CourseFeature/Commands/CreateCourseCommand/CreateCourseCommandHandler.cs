@@ -22,7 +22,7 @@ public class CreateCourseCommandHandler(
         var businessRulesResult = await BusinessRuleEngine.RunAsync(
             () => courseBusinessRules.CheckCourseTitleIsUnique(request.CreateCourseCommandRequestDto!.Title!),
             () => courseBusinessRules.CheckMaxCourseLimitNotReached(),
-            () => courseBusinessRules.CheckCategoryExists(request.CreateCourseCommandRequestDto!.CategoryId.ToString()),
+            () => courseBusinessRules.CheckCategoryExists(request.CreateCourseCommandRequestDto!.CategoryId),
             () => Task.FromResult(courseBusinessRules.CheckPriceIsValid(request.CreateCourseCommandRequestDto!.Price))
         );
 

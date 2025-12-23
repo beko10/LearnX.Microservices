@@ -4,5 +4,5 @@ namespace CatalogService.Application.Features.CategoryFeature.Queries.GetByIdCat
 
 public class GetByIdCategoryQueryRequest : IRequest<GetByIdCategoryQueryResponse>
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 }

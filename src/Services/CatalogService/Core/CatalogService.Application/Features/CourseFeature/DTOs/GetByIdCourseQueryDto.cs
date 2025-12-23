@@ -6,8 +6,8 @@ public class GetByIdCourseQueryDto
     public string Description { get; set; } = default!;
     public decimal Price { get; set; }
     public string? Picture { get; set; }
-    public Guid UserId { get; set; }
-    public Guid CategoryId { get; set; }
+    public string UserId { get; set; }
+    public string CategoryId { get; set; }
     public GetByIdCourseFeatureDto Feature { get; set; } = default!;
 }
 

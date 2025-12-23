@@ -6,5 +6,5 @@ namespace CatalogService.Application.Features.CategoryFeature.Commands.DeleteCat
 
 public class DeleteCategoryCommandRequest : IRequest<DeleteCategoryCommandResponse>
 {
-    public Guid Id { get; set; }
+    public string? Id { get; set; }
 }

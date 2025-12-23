@@ -4,6 +4,6 @@ namespace CatalogService.Application.Features.CourseFeature.Queries.GetByIdCours
 
 public class GetByIdCourseQueryRequest : IRequest<GetByIdCourseQueryResponse>
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 }
 

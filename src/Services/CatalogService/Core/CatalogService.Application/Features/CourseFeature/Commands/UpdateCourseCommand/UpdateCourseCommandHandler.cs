@@ -19,9 +19,9 @@ public class UpdateCourseCommandHandler(
     public async Task<UpdateCourseCommandResponse> Handle(UpdateCourseCommandRequest request, CancellationToken cancellationToken)
     {
         var businessRulesResult = await BusinessRuleEngine.RunAsync(
-            () => courseBusinessRules.CheckCourseExists(request.UpdateCourseCommandRequestDto!.Id.ToString()),
-            () => courseBusinessRules.CheckCourseTitleIsUniqueExceptCurrent(request.UpdateCourseCommandRequestDto!.Title, request.UpdateCourseCommandRequestDto!.Id.ToString()),
-            () => courseBusinessRules.CheckCategoryExists(request.UpdateCourseCommandRequestDto!.CategoryId.ToString()),
+            () => courseBusinessRules.CheckCourseExists(request.UpdateCourseCommandRequestDto!.Id),
+            () => courseBusinessRules.CheckCourseTitleIsUniqueExceptCurrent(request.UpdateCourseCommandRequestDto!.Title, request.UpdateCourseCommandRequestDto!.Id),
+            () => courseBusinessRules.CheckCategoryExists(request.UpdateCourseCommandRequestDto!.CategoryId),
             () => Task.FromResult(courseBusinessRules.CheckPriceIsValid(request.UpdateCourseCommandRequestDto!.Price))
         );
 

@@ -1,5 +1,4 @@
-﻿// CatalogService.Application/Features/Categories/CreateCategory/CreateCategoryCommandValidator.cs
-using CatalogService.Application.Constants.ValidationMessages;
+﻿using CatalogService.Application.Constants.ValidationMessages;
 using CatalogService.Application.Features.CategoryFeature.DTOs;
 using FluentValidation;
 

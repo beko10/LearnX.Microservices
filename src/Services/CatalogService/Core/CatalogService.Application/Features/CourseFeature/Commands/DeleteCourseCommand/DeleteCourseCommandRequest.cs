@@ -4,6 +4,6 @@ namespace CatalogService.Application.Features.CourseFeature.Commands.DeleteCours
 
 public class DeleteCourseCommandRequest : IRequest<DeleteCourseCommandResponse>
 {
-    public Guid Id { get; set; }
+    public string Id { get; set; }
 }
 
