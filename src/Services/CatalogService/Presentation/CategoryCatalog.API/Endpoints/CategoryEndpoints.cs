@@ -13,17 +13,17 @@ public static class CategoryEndpoints
     public static IEndpointRouteBuilder RegisterCategoryEndpoints(this IEndpointRouteBuilder app)
     {
         // Category Endpoints
-        var group = app.MapGroup("/api/categories")
+        var group = app.MapGroup("/categories")
             .WithTags("Categories");
 
 
         // Get All Categories Endpoint
-        group.MapGet("/", async (IMediator mediator,
+        group.MapGet("/getall", async (IMediator mediator,
             CancellationToken cancellationToken
             ) =>
         {
             var queryResponse = await mediator.Send(new GetAllCategoryQueryRequest(),
-              cancellationToken  
+              cancellationToken
             );
 
             return queryResponse.Result.IsSuccess
@@ -35,18 +35,18 @@ public static class CategoryEndpoints
 
 
         // Get Category By Id Endpoint
-        group.MapGet("/{id}", async (
+        group.MapGet("/getbyid/{id}", async (
             string id,
             IMediator mediator,
             CancellationToken cancellationToken
             ) =>
         {
-           var queryResponse = await mediator.Send(new GetByIdCategoryQueryRequest
-                {
-                    Id = id
-                },
-                cancellationToken
-            );
+            var queryResponse = await mediator.Send(new GetByIdCategoryQueryRequest
+            {
+                Id = id
+            },
+                 cancellationToken
+             );
 
             return queryResponse.Result.IsSuccess
                 ? Results.Ok(queryResponse.Result.Data)
@@ -58,7 +58,7 @@ public static class CategoryEndpoints
             .Produces(404);
 
 
-        group.MapPost("/", async (
+        group.MapPost("/create", async (
             CreateCategoryCommandDto createCategoryCommandDto,
             IMediator mediator,
             CancellationToken cancellationToken
@@ -71,7 +71,7 @@ public static class CategoryEndpoints
                 cancellationToken
             );
             return commandResponse.Result.IsSuccess
-                ? Results.Created($"/api/categories", commandResponse.Result.SuccessMessage)
+                ? Results.Created($"/api/categories/create", commandResponse.Result.SuccessMessage)
                 : Results.BadRequest(commandResponse.Result);
         })
             .WithName("CreateCategory")
@@ -80,7 +80,7 @@ public static class CategoryEndpoints
             .Produces(400);
 
 
-        group.MapPut("/", async (
+        group.MapPut("/update", async (
             UpdateCategoryCommandDto updateCategoryCommandDto,
             IMediator mediator,
             CancellationToken cancellationToken
@@ -104,16 +104,16 @@ public static class CategoryEndpoints
             .Produces(404);
 
 
-        group.MapDelete("/{id}", async (
+        group.MapDelete("/delete/{id}", async (
             string id,
             IMediator mediator,
             CancellationToken cancellationToken
             ) =>
         {
             var commandResponse = await mediator.Send(new DeleteCategoryCommandRequest
-                {
-                    Id = id
-                },
+            {
+                Id = id
+            },
                 cancellationToken
             );
             return commandResponse.Result.IsSuccess
@@ -125,7 +125,7 @@ public static class CategoryEndpoints
             .Produces(200)
             .Produces(400)
             .Produces(404);
-            
+
         return app;
     }
 }

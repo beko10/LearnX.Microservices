@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
+namespace BuildingBlocks.Core.Extensions;
+
 public static class ExceptionHandlerExtensions
 {
     public static IServiceCollection AddGlobalExceptionHandler(this IServiceCollection services)

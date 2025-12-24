@@ -1,6 +1,7 @@
 using CatalogService.Application.Constants.ValidationMessages;
 using CatalogService.Application.Features.CategoryFeature.Commands.DeleteCategoryCommand;
 using FluentValidation;
+using MongoDB.Bson;
 
 namespace CatalogService.Application.Features.CategoryFeature.Validatiors;
 
@@ -15,13 +16,13 @@ public class DeleteCategoryCommandRequestValidator : AbstractValidator<DeleteCat
             .NotNull()
             .WithMessage(CategoryValidationMessages.IdNull)
             .WithErrorCode(CategoryValidationMessages.IdNullCode)
-            .Must(BeAValidGuid)
+            .Must(BeAValidObjectId)
             .WithMessage(CategoryValidationMessages.IdInvalid)
             .WithErrorCode(CategoryValidationMessages.IdInvalidCode);
     }
 
-    private bool BeAValidGuid(string id)
+    private bool BeAValidObjectId(string id)
     {
-        return Guid.TryParse(id, out var guid) && guid != Guid.Empty;
+        return ObjectId.TryParse(id, out _);
     }
 }

@@ -42,15 +42,12 @@ public static class ServiceRegistration
             return AppDbContext.Create(database);
         });
 
-        // 5. UnitOfWork Kaydı
+  
         services.AddScoped<IUnitOfWork, UnitOfWork.UnitOfWork>();
 
-        // 6. Category Repository Kayıtları
         services.AddScoped<IReadCategoryRepository, EfCoreCategoryReadRepository>();
         services.AddScoped<IWriteCategoryRepository, EfCoreCategoryWriteRepository>();
 
-
-        // 7. Course Repository Kayıtları
         services.AddScoped<IReadCourseRepository, EfCoreCourseReadRepository>();
         services.AddScoped<IWriteCourseRepository, EfCoreCourseWriteRepository>();
 

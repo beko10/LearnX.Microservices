@@ -1,6 +1,7 @@
 using CatalogService.Application.Constants.ValidationMessages;
 using CatalogService.Application.Features.CourseFeature.DTOs;
 using FluentValidation;
+using MongoDB.Bson;
 
 namespace CatalogService.Application.Features.CourseFeature.Validatiors;
 
@@ -15,7 +16,7 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .NotNull()
             .WithMessage(CourseValidationMessages.IdNull)
             .WithErrorCode(CourseValidationMessages.IdNullCode)
-            .Must(BeAValidGuid)
+            .Must(BeAValidObjectId)
             .WithMessage(CourseValidationMessages.IdInvalid)
             .WithErrorCode(CourseValidationMessages.IdInvalidCode);
 
@@ -91,7 +92,7 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .NotNull()
             .WithMessage(CourseValidationMessages.CategoryIdNull)
             .WithErrorCode(CourseValidationMessages.CategoryIdNullCode)
-            .Must(BeAValidGuid)
+            .Must(BeAValidObjectId)
             .WithMessage(CourseValidationMessages.CategoryIdInvalid)
             .WithErrorCode(CourseValidationMessages.CategoryIdInvalidCode);
 
@@ -105,6 +106,11 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
     private bool BeAValidGuid(string id)
     {
         return Guid.TryParse(id, out var guid) && guid != Guid.Empty;
+    }
+
+    private bool BeAValidObjectId(string id)
+    {
+        return MongoDB.Bson.ObjectId.TryParse(id, out _);
     }
 
     private bool NotContainMultipleSpaces(string title)

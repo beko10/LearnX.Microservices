@@ -1,72 +1,101 @@
 ﻿using CatalogService.Application.Interfaces.Repositories;
 using CatalogService.Domain.Entities.Common;
 using CatalogService.Persistance.Context;
+using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 
 namespace CatalogService.Persistance.Repositories;
 
 public class EfCoreWriteRepository<TEntity> :
-    EfCoreRepository<TEntity>, 
+    EfCoreRepository<TEntity>,
     IWriteRepository<TEntity>
     where TEntity : BaseEntity
 {
     public EfCoreWriteRepository(AppDbContext context) : base(context)
     {
+
     }
 
-    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default
-     )
+    public async Task AddAsync(
+        TEntity entity,
+        CancellationToken cancellationToken = default)
     {
+        // AddAsync'ten ÖNCE Id set et
+        if (string.IsNullOrEmpty(entity.Id))
+        {
+            entity.Id = ObjectId.GenerateNewId().ToString();
+        }
+
+        entity.CreatedDate = DateTime.UtcNow;
+        entity.UpdatedDate = DateTime.UtcNow;
+
         await _dbSet.AddAsync(entity, cancellationToken);
     }
 
     public async Task AddRangeAsync(
-        IEnumerable<TEntity> entities, 
-        CancellationToken cancellationToken = default
-     )
+        IEnumerable<TEntity> entities,
+        CancellationToken cancellationToken = default)
     {
+        foreach (var entity in entities)
+        {
+            if (string.IsNullOrEmpty(entity.Id))
+            {
+                entity.Id = ObjectId.GenerateNewId().ToString();
+            }
+            entity.CreatedDate = DateTime.UtcNow;
+            entity.UpdatedDate = DateTime.UtcNow;
+        }
+
         await _dbSet.AddRangeAsync(entities, cancellationToken);
     }
 
-    public async Task RemoveAsync(TEntity entity, CancellationToken cancellationToken = default
-    )
+    public Task RemoveAsync(
+        TEntity entity,
+        CancellationToken cancellationToken = default)
     {
-        await Task.Run(() => { _dbSet.Remove(entity); }, cancellationToken);
+        _dbSet.Remove(entity);
+        return Task.CompletedTask;
     }
 
-    public async Task<bool> RemoveIdAsync(string id, CancellationToken cancellationToken = default
-    )
+    public async Task<bool> RemoveIdAsync(
+        string id,
+        CancellationToken cancellationToken = default)
     {
-        return await Task.Run(() =>
+        var entity = await _dbSet.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+
+        if (entity == null)
+            return false;
+
+        _dbSet.Remove(entity);
+        return true;
+    }
+
+    public Task RemoveRangeAsync(
+        IEnumerable<TEntity> entities,
+        CancellationToken cancellationToken = default)
+    {
+        _dbSet.RemoveRange(entities);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateAsync(
+        TEntity entity,
+        CancellationToken cancellationToken = default)
+    {
+        entity.UpdatedDate = DateTime.UtcNow;
+        _dbSet.Update(entity);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateRangeAsync(
+        IEnumerable<TEntity> entities,
+        CancellationToken cancellationToken = default)
+    {
+        foreach (var entity in entities)
         {
-            var entity = _dbSet.Find(id);
-            if (entity == null)
-                return false;
-            _dbSet.Remove(entity);
-            return true;
-        }, cancellationToken);
-    }
-
-    public async Task RemoveRangeAsync(
-        IEnumerable<TEntity> entities, 
-        CancellationToken cancellationToken = default
-    )
-    {
-        await Task.Run(() => { _dbSet.RemoveRange(entities); }, cancellationToken);
-    }
-
-    public async Task UpdateAsync(
-        TEntity entity, 
-        CancellationToken cancellationToken = default
-    )
-    {
-        await Task.Run(() => { _dbSet.Update(entity); }, cancellationToken);
-    }
-
-    public async Task UpdateRangeAsync(
-        IEnumerable<TEntity> entities, 
-        CancellationToken cancellationToken = default
-    )
-    {
-        await Task.Run(() => { _dbSet.UpdateRange(entities); }, cancellationToken);
+            entity.UpdatedDate = DateTime.UtcNow;
+        }
+        _dbSet.UpdateRange(entities);
+        return Task.CompletedTask;
     }
 }

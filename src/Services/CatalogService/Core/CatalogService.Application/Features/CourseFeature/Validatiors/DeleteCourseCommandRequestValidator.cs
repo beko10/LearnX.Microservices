@@ -1,6 +1,7 @@
 using CatalogService.Application.Constants.ValidationMessages;
 using CatalogService.Application.Features.CourseFeature.Commands.DeleteCourseCommand;
 using FluentValidation;
+using MongoDB.Bson;
 
 namespace CatalogService.Application.Features.CourseFeature.Validatiors;
 
@@ -15,14 +16,14 @@ public class DeleteCourseCommandRequestValidator : AbstractValidator<DeleteCours
             .NotNull()
             .WithMessage(CourseValidationMessages.IdNull)
             .WithErrorCode(CourseValidationMessages.IdNullCode)
-            .Must(BeAValidGuid)
+            .Must(BeAValidObjectId)
             .WithMessage(CourseValidationMessages.IdInvalid)
             .WithErrorCode(CourseValidationMessages.IdInvalidCode);
     }
 
-    private bool BeAValidGuid(string id)
+    private bool BeAValidObjectId(string id)
     {
-        return Guid.TryParse(id, out var guid) && guid != Guid.Empty;
+        return ObjectId.TryParse(id, out _);
     }
 }
 

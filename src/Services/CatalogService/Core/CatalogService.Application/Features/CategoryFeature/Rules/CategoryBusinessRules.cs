@@ -28,8 +28,10 @@ public class CategoryBusinessRules(
 
     public async Task<ServiceResult> CheckCategoryNameIsUnique(string name)
     {
-        var exists = await categoryReadRepository.ExistsAsync(
-            c => c.Name.ToLower() == name.ToLower());
+        // MongoDB case-insensitive sorgu için tüm kategorileri alıp memory'de kontrol ediyoruz
+        var categories = await categoryReadRepository.GetAllAsync();
+        var exists = categories.Any(c =>
+            string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
 
         return !exists
             ? ServiceResult.SuccessAsNoContent()
@@ -39,8 +41,10 @@ public class CategoryBusinessRules(
 
     public async Task<ServiceResult> CheckCategoryNameIsUniqueExceptCurrent(string name, string currentId)
     {
-        var category = await categoryReadRepository.GetSingleAsync(
-            c => c.Name.ToLower() == name.ToLower());
+        // MongoDB case-insensitive sorgu için tüm kategorileri alıp memory'de kontrol ediyoruz
+        var categories = await categoryReadRepository.GetAllAsync();
+        var category = categories.FirstOrDefault(c =>
+            string.Equals(c.Name, name, StringComparison.OrdinalIgnoreCase));
 
         if (category == null)
             return ServiceResult.SuccessAsNoContent();
@@ -83,7 +87,7 @@ public class CategoryBusinessRules(
     public async Task<ServiceResult> CheckCategoryHasNoCourses(string categoryId)
     {
         var courseCount = await courseReadRepository.CountWhereAsync(
-            c => c.CategoryId.ToString() == categoryId);
+            c => c.CategoryId == categoryId);
 
         return courseCount == 0
             ? ServiceResult.SuccessAsNoContent()
