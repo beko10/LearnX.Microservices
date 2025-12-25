@@ -5,6 +5,7 @@ namespace CatalogService.Application.Features.CategoryFeature.Commands.UpdateCat
 
 public class UpdateCategoryCommandRequest : IRequest<UpdateCategoryCommandResponse>
 {
+    public string Id { get; set; } = null!;
     public UpdateCategoryCommandDto? UpdateCategoryCommandRequestDto { get; set; }
 }
 

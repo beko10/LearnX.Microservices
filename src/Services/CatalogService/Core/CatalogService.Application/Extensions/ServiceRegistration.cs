@@ -1,5 +1,4 @@
 ﻿using BuildingBlocks.Core.Extensions;
-using CatalogService.Application.BusinessRules;
 using CatalogService.Application.Features.CategoryFeature.Rules;
 using CatalogService.Application.Features.CourseFeature.Rules;
 using FluentValidation;

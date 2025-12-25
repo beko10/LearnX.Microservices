@@ -13,7 +13,7 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
         PropertyNameCaseInsensitive = true
     };
 
-    
+    // Success Methods
     public static ServiceResult<TData> SuccessAsOk(TData data)
     {
         return new ServiceResult<TData>
@@ -23,12 +23,32 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
         };
     }
 
+    public static ServiceResult<TData> SuccessAsOk(TData data, string successMessage)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.OK,
+            Data = data,
+            SuccessMessage = successMessage
+        };
+    }
+
     public static ServiceResult<TData> SuccessAsCreated(TData data)
     {
         return new ServiceResult<TData>
         {
             StatusCode = HttpStatusCode.Created,
             Data = data,
+        };
+    }
+
+    public static ServiceResult<TData> SuccessAsCreated(TData data, string successMessage)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.Created,
+            Data = data,
+            SuccessMessage = successMessage
         };
     }
 
@@ -46,6 +66,34 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
         };
     }
 
+    public static ServiceResult<TData> Fail(string detail)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.BadRequest,
+            FailProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+            {
+                Status = (int)HttpStatusCode.BadRequest,
+                Title = "Service operation failed",
+                Detail = detail,
+            },
+        };
+    }
+
+    public static ServiceResult<TData> Fail(HttpStatusCode httpStatusCode, string detail)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = httpStatusCode,
+            FailProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+            {
+                Status = (int)httpStatusCode,
+                Title = "Service operation failed",
+                Detail = detail,
+            },
+        };
+    }
+
     public static ServiceResult<TData> ErrorAsNotFound()
     {
         return new ServiceResult<TData>
@@ -55,6 +103,20 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
             {
                 Status = (int)HttpStatusCode.NotFound,
                 Title = "The requested resource was not found.",
+            },
+        };
+    }
+
+    public static ServiceResult<TData> ErrorAsNotFound(string detail)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.NotFound,
+            FailProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+            {
+                Status = (int)HttpStatusCode.NotFound,
+                Title = "The requested resource was not found.",
+                Detail = detail,
             },
         };
     }
@@ -72,6 +134,20 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
         };
     }
 
+    public static ServiceResult<TData> ErrorAsUnauthorized(string detail)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.Unauthorized,
+            FailProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+            {
+                Status = (int)HttpStatusCode.Unauthorized,
+                Title = "Unauthorized access.",
+                Detail = detail,
+            },
+        };
+    }
+
     public static ServiceResult<TData> ErrorAsForbidden()
     {
         return new ServiceResult<TData>
@@ -81,6 +157,20 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
             {
                 Status = (int)HttpStatusCode.Forbidden,
                 Title = "Forbidden access.",
+            },
+        };
+    }
+
+    public static ServiceResult<TData> ErrorAsForbidden(string detail)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.Forbidden,
+            FailProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+            {
+                Status = (int)HttpStatusCode.Forbidden,
+                Title = "Forbidden access.",
+                Detail = detail,
             },
         };
     }
@@ -98,6 +188,20 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
         };
     }
 
+    public static ServiceResult<TData> ErrorAsConflict(string detail)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.Conflict,
+            FailProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+            {
+                Status = (int)HttpStatusCode.Conflict,
+                Title = "Conflict occurred.",
+                Detail = detail,
+            },
+        };
+    }
+
     public static ServiceResult<TData> ErrorAsInternalServerError()
     {
         return new ServiceResult<TData>
@@ -107,6 +211,20 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
             {
                 Status = (int)HttpStatusCode.InternalServerError,
                 Title = "An internal server error occurred.",
+            },
+        };
+    }
+
+    public static ServiceResult<TData> ErrorAsInternalServerError(string detail)
+    {
+        return new ServiceResult<TData>
+        {
+            StatusCode = HttpStatusCode.InternalServerError,
+            FailProblemDetails = new Microsoft.AspNetCore.Mvc.ProblemDetails
+            {
+                Status = (int)HttpStatusCode.InternalServerError,
+                Title = "An internal server error occurred.",
+                Detail = detail,
             },
         };
     }
@@ -187,5 +305,4 @@ public class ServiceResult<TData> : ServiceResult, IDataResult<TData>
             FailProblemDetails = problemDetails!,
         };
     }
-    
 }

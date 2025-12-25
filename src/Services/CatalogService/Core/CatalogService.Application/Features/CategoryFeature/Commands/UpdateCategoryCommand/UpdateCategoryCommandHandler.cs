@@ -5,13 +5,12 @@ using CatalogService.Application.Features.CategoryFeature.Commands.UpdateCategor
 using CatalogService.Application.Features.CategoryFeature.Rules;
 using CatalogService.Application.Interfaces.Repositories.CategoryRepository;
 using CatalogService.Application.Interfaces.UnitOfWork;
-using CatalogService.Domain.Entities;
 using MediatR;
 
 namespace CatalogService.Application.Features.CategoryFeature.Commands.CreateCategoryCommand;
 
 public class UpdateCategoryCommandHandler(
-    IReadCategoryRepository readCategoryRepository, // 👈 EKLE
+    IReadCategoryRepository readCategoryRepository,
     IWriteCategoryRepository writeCategoryRepository,
     ICategoryBusinessRules categoryBusinessRules,
     IUnitOfWork unitOfWork,
@@ -24,10 +23,10 @@ public class UpdateCategoryCommandHandler(
     {
         
         var businessRulesResult = await BusinessRuleEngine.RunAsync(
-            () => categoryBusinessRules.CheckCategoryExists(request.UpdateCategoryCommandRequestDto!.Id),
+            () => categoryBusinessRules.CheckCategoryExists(request.Id),
             () => categoryBusinessRules.CheckCategoryNameIsUniqueExceptCurrent(
                 request.UpdateCategoryCommandRequestDto!.Name,
-                request.UpdateCategoryCommandRequestDto!.Id)
+                request!.Id)
         );
 
         if (businessRulesResult.IsFail)
@@ -40,7 +39,7 @@ public class UpdateCategoryCommandHandler(
 
        
         var existingCategory = await readCategoryRepository.GetByIdAsync(
-            request.UpdateCategoryCommandRequestDto!.Id,
+            request.Id,
             cancellationToken);
 
         

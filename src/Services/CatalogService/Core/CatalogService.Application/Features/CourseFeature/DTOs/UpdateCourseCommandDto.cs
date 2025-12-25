@@ -2,7 +2,6 @@ namespace CatalogService.Application.Features.CourseFeature.DTOs;
 
 public class UpdateCourseCommandDto
 {
-    public string Id { get; set; } = default!;
     public string Title { get; set; } = null!;
     public string Description { get; set; } = null!;
     public decimal Price { get; set; }

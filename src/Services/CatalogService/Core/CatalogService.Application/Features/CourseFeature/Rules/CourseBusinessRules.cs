@@ -1,10 +1,9 @@
 using BuildingBlocks.Core.Results;
 using CatalogService.Application.Constants.BusinessRuleMessages;
-using CatalogService.Application.Features.CourseFeature.Rules;
 using CatalogService.Application.Interfaces.Repositories.CategoryRepository;
 using CatalogService.Application.Interfaces.Repositories.CourseRepository;
 
-namespace CatalogService.Application.BusinessRules;
+namespace CatalogService.Application.Features.CourseFeature.Rules;
 
 public class CourseBusinessRules(
     IReadCourseRepository courseReadRepository,

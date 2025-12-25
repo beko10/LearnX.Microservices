@@ -1,13 +1,14 @@
 using CatalogService.Application.Constants.ValidationMessages;
+using CatalogService.Application.Features.CourseFeature.Commands.UpdateCourseCommand;
 using CatalogService.Application.Features.CourseFeature.DTOs;
 using FluentValidation;
 using MongoDB.Bson;
 
-namespace CatalogService.Application.Features.CourseFeature.Validatiors;
+namespace CatalogService.Application.Features.CourseFeature.Validators;
 
-public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCommandDto>
+public class UpdateCourseCommandRequestValidator : AbstractValidator<UpdateCourseCommandRequest>
 {
-    public UpdateCourseCommandDtoValidator()
+    public UpdateCourseCommandRequestValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty()
@@ -20,7 +21,7 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .WithMessage(CourseValidationMessages.IdInvalid)
             .WithErrorCode(CourseValidationMessages.IdInvalidCode);
 
-        RuleFor(x => x.Title)
+        RuleFor(x => x.UpdateCourseCommandRequestDto.Title)
             .NotEmpty()
             .WithMessage(CourseValidationMessages.TitleRequired)
             .WithErrorCode(CourseValidationMessages.TitleRequiredCode)
@@ -43,7 +44,7 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .WithMessage(CourseValidationMessages.TitleSpaceEdges)
             .WithErrorCode(CourseValidationMessages.TitleSpaceEdgesCode);
 
-        RuleFor(x => x.Description)
+        RuleFor(x => x.UpdateCourseCommandRequestDto.Description)
             .NotEmpty()
             .WithMessage(CourseValidationMessages.DescriptionRequired)
             .WithErrorCode(CourseValidationMessages.DescriptionRequiredCode)
@@ -57,7 +58,7 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .WithMessage(CourseValidationMessages.DescriptionTooLong)
             .WithErrorCode(CourseValidationMessages.DescriptionTooLongCode);
 
-        RuleFor(x => x.Price)
+        RuleFor(x => x.UpdateCourseCommandRequestDto.Price)
             .NotEmpty()
             .WithMessage(CourseValidationMessages.PriceRequired)
             .WithErrorCode(CourseValidationMessages.PriceRequiredCode)
@@ -68,13 +69,13 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .WithMessage(CourseValidationMessages.PriceTooHigh)
             .WithErrorCode(CourseValidationMessages.PriceTooHighCode);
 
-        RuleFor(x => x.Picture)
+        RuleFor(x => x.UpdateCourseCommandRequestDto.Picture)
             .MaximumLength(CourseValidationMessages.PictureMaxLength)
             .WithMessage(CourseValidationMessages.PictureTooLong)
             .WithErrorCode(CourseValidationMessages.PictureTooLongCode)
-            .When(x => !string.IsNullOrEmpty(x.Picture));
+            .When(x => !string.IsNullOrEmpty(x.UpdateCourseCommandRequestDto.Picture));
 
-        RuleFor(x => x.UserId)
+        RuleFor(x => x.UpdateCourseCommandRequestDto.UserId)
             .NotEmpty()
             .WithMessage(CourseValidationMessages.UserIdRequired)
             .WithErrorCode(CourseValidationMessages.UserIdRequiredCode)
@@ -85,7 +86,7 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .WithMessage(CourseValidationMessages.UserIdInvalid)
             .WithErrorCode(CourseValidationMessages.UserIdInvalidCode);
 
-        RuleFor(x => x.CategoryId)
+        RuleFor(x => x.UpdateCourseCommandRequestDto.CategoryId)
             .NotEmpty()
             .WithMessage(CourseValidationMessages.CategoryIdRequired)
             .WithErrorCode(CourseValidationMessages.CategoryIdRequiredCode)
@@ -96,7 +97,7 @@ public class UpdateCourseCommandDtoValidator : AbstractValidator<UpdateCourseCom
             .WithMessage(CourseValidationMessages.CategoryIdInvalid)
             .WithErrorCode(CourseValidationMessages.CategoryIdInvalidCode);
 
-        RuleFor(x => x.Feature)
+        RuleFor(x => x.UpdateCourseCommandRequestDto.Feature)
             .NotNull()
             .WithMessage(CourseValidationMessages.FeatureRequired)
             .WithErrorCode(CourseValidationMessages.FeatureRequiredCode)

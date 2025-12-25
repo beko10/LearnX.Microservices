@@ -20,7 +20,7 @@ public class EfCoreWriteRepository<TEntity> :
         TEntity entity,
         CancellationToken cancellationToken = default)
     {
-        // AddAsync'ten ÖNCE Id set et
+       
         if (string.IsNullOrEmpty(entity.Id))
         {
             entity.Id = ObjectId.GenerateNewId().ToString();

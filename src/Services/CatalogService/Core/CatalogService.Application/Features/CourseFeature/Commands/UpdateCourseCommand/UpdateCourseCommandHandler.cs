@@ -4,13 +4,13 @@ using BuildingBlocks.Core.Results;
 using CatalogService.Application.Features.CourseFeature.Rules;
 using CatalogService.Application.Interfaces.Repositories.CourseRepository;
 using CatalogService.Application.Interfaces.UnitOfWork;
-using CatalogService.Domain.Entities;
 using MediatR;
 
 namespace CatalogService.Application.Features.CourseFeature.Commands.UpdateCourseCommand;
 
 public class UpdateCourseCommandHandler(
     IWriteCourseRepository writeCourseRepository,
+    IReadCourseRepository readCourseRepository,
     ICourseBusinessRules courseBusinessRules,
     IUnitOfWork unitOfWork,
     IMapper mapper
@@ -19,8 +19,8 @@ public class UpdateCourseCommandHandler(
     public async Task<UpdateCourseCommandResponse> Handle(UpdateCourseCommandRequest request, CancellationToken cancellationToken)
     {
         var businessRulesResult = await BusinessRuleEngine.RunAsync(
-            () => courseBusinessRules.CheckCourseExists(request.UpdateCourseCommandRequestDto!.Id),
-            () => courseBusinessRules.CheckCourseTitleIsUniqueExceptCurrent(request.UpdateCourseCommandRequestDto!.Title, request.UpdateCourseCommandRequestDto!.Id),
+            () => courseBusinessRules.CheckCourseExists(request.Id),
+            () => courseBusinessRules.CheckCourseTitleIsUniqueExceptCurrent(request.UpdateCourseCommandRequestDto!.Title, request.Id),
             () => courseBusinessRules.CheckCategoryExists(request.UpdateCourseCommandRequestDto!.CategoryId),
             () => Task.FromResult(courseBusinessRules.CheckPriceIsValid(request.UpdateCourseCommandRequestDto!.Price))
         );
@@ -33,9 +33,13 @@ public class UpdateCourseCommandHandler(
             };
         }
 
-        var updatedCourse = mapper.Map<Course>(request.UpdateCourseCommandRequestDto);
+        var existingCourse = await readCourseRepository.GetByIdAsync(request.Id, cancellationToken);
 
-        await writeCourseRepository.UpdateAsync(updatedCourse);
+        mapper.Map(request.UpdateCourseCommandRequestDto, existingCourse);
+
+        await writeCourseRepository.UpdateAsync(existingCourse,
+            cancellationToken);
+
         await unitOfWork.SaveChangesAsync(cancellationToken);
 
         return new UpdateCourseCommandResponse

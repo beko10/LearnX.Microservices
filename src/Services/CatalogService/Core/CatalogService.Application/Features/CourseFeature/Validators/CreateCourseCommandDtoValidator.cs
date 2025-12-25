@@ -3,7 +3,7 @@ using CatalogService.Application.Features.CourseFeature.DTOs;
 using FluentValidation;
 using MongoDB.Bson;
 
-namespace CatalogService.Application.Features.CourseFeature.Validatiors;
+namespace CatalogService.Application.Features.CourseFeature.Validators;
 
 public class CreateCourseCommandDtoValidator : AbstractValidator<CreateCourseCommandDto>
 {

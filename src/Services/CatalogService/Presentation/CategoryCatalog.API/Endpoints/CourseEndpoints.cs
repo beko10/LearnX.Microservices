@@ -1,28 +1,28 @@
-using CatalogService.Application.Features.CategoryFeature.Commands.CreateCategoryCommand;
-using CatalogService.Application.Features.CategoryFeature.Commands.DeleteCategoryCommand;
-using CatalogService.Application.Features.CategoryFeature.Commands.UpdateCategoryCommand;
-using CatalogService.Application.Features.CategoryFeature.DTOs;
-using CatalogService.Application.Features.CategoryFeature.Queries.GetAllCategoryQuery;
-using CatalogService.Application.Features.CategoryFeature.Queries.GetByIdCategoryQuery;
+using CatalogService.Application.Features.CourseFeature.Commands.CreateCourseCommand;
+using CatalogService.Application.Features.CourseFeature.Commands.DeleteCourseCommand;
+using CatalogService.Application.Features.CourseFeature.Commands.UpdateCourseCommand;
+using CatalogService.Application.Features.CourseFeature.DTOs;
+using CatalogService.Application.Features.CourseFeature.Queries.GetAllCourseQuery;
+using CatalogService.Application.Features.CourseFeature.Queries.GetByIdCourseQuery;
 using MediatR;
 
 namespace CategoryCatalog.API.Endpoints;
 
-public static class CategoryEndpoints
+public static class CourseEndpoints
 {
-    public static IEndpointRouteBuilder RegisterCategoryEndpoints(this IEndpointRouteBuilder app)
+    public static IEndpointRouteBuilder RegisterCourseEndpoints(this IEndpointRouteBuilder app)
     {
-        // Category Endpoints
-        var group = app.MapGroup("/categories")
-            .WithTags("Categories");
+        // Course Endpoints
+        var group = app.MapGroup("/courses")
+            .WithTags("Courses");
 
 
-        // Get All Categories Endpoint
+        // Get All Courses Endpoint
         group.MapGet("/getall", async (IMediator mediator,
             CancellationToken cancellationToken
             ) =>
         {
-            var queryResponse = await mediator.Send(new GetAllCategoryQueryRequest(),
+            var queryResponse = await mediator.Send(new GetAllCourseQueryRequest(),
               cancellationToken
             );
 
@@ -30,18 +30,18 @@ public static class CategoryEndpoints
                 ? Results.Ok(queryResponse.Result.Data)
                 : Results.BadRequest(queryResponse.Result);
         })
-        .WithName("GetAllCategories")
-        .WithDescription("Retrieves all categories.");
+        .WithName("GetAllCourses")
+        .WithDescription("Retrieves all courses.");
 
 
-        // Get Category By Id Endpoint
+        // Get Course By Id Endpoint
         group.MapGet("/getbyid/{id}", async (
             string id,
             IMediator mediator,
             CancellationToken cancellationToken
             ) =>
         {
-            var queryResponse = await mediator.Send(new GetByIdCategoryQueryRequest
+            var queryResponse = await mediator.Send(new GetByIdCourseQueryRequest
             {
                 Id = id
             },
@@ -52,45 +52,45 @@ public static class CategoryEndpoints
                 ? Results.Ok(queryResponse.Result.Data)
                 : Results.NotFound(queryResponse.Result);
         })
-            .WithName("GetByIdCategory")
-            .WithDescription("Get category by ID")
-            .Produces<GetByIdCategoryQueryResponse>(200)
+            .WithName("GetByIdCourse")
+            .WithDescription("Get course by ID")
+            .Produces<GetByIdCourseQueryResponse>(200)
             .Produces(404);
 
 
         group.MapPost("/create", async (
-            CreateCategoryCommandDto createCategoryCommandDto,
+            CreateCourseCommandDto createCourseCommandDto,
             IMediator mediator,
             CancellationToken cancellationToken
             ) =>
         {
-            var commandResponse = await mediator.Send(new CreateCategoryCommandRequest
+            var commandResponse = await mediator.Send(new CreateCourseCommandRequest
             {
-                CreateCategoryCommandRequestDto = createCategoryCommandDto
+                CreateCourseCommandRequestDto = createCourseCommandDto
             },
                 cancellationToken
             );
             return commandResponse.Result.IsSuccess
-                ? Results.Created($"/api/categories/create", commandResponse.Result.SuccessMessage)
+                ? Results.Created($"/api/courses/create", commandResponse.Result.SuccessMessage)
                 : Results.BadRequest(commandResponse.Result);
         })
-            .WithName("CreateCategory")
-            .WithDescription("Create a new category")
-            .Produces<CreateCategoryCommandResponse>(201)
+            .WithName("CreateCourse")
+            .WithDescription("Create a new course")
+            .Produces<CreateCourseCommandResponse>(201)
             .Produces(400);
 
 
         group.MapPut("/update/{id}", async (
             string id,
-            UpdateCategoryCommandDto updateCategoryCommandDto,
+            UpdateCourseCommandDto updateCourseCommandDto,
             IMediator mediator,
             CancellationToken cancellationToken
             ) =>
         {
-            var commandResponse = await mediator.Send(new UpdateCategoryCommandRequest
+            var commandResponse = await mediator.Send(new UpdateCourseCommandRequest
             {
                 Id = id,
-                UpdateCategoryCommandRequestDto = updateCategoryCommandDto
+                UpdateCourseCommandRequestDto = updateCourseCommandDto
             },
             cancellationToken
             );
@@ -99,8 +99,8 @@ public static class CategoryEndpoints
                 ? Results.Ok(commandResponse.Result.SuccessMessage)
                 : Results.BadRequest(commandResponse.Result);
         })
-            .WithName("UpdateCategory")
-            .WithDescription("Update an existing category")
+            .WithName("UpdateCourse")
+            .WithDescription("Update an existing course")
             .Produces(200)
             .Produces(400)
             .Produces(404);
@@ -112,7 +112,7 @@ public static class CategoryEndpoints
             CancellationToken cancellationToken
             ) =>
         {
-            var commandResponse = await mediator.Send(new DeleteCategoryCommandRequest
+            var commandResponse = await mediator.Send(new DeleteCourseCommandRequest
             {
                 Id = id
             },
@@ -122,8 +122,8 @@ public static class CategoryEndpoints
                 ? Results.Ok(commandResponse.Result.SuccessMessage)
                 : Results.BadRequest(commandResponse.Result);
         })
-            .WithName("DeleteCategory")
-            .WithDescription("Delete category by ID")
+            .WithName("DeleteCourse")
+            .WithDescription("Delete course by ID")
             .Produces(200)
             .Produces(400)
             .Produces(404);

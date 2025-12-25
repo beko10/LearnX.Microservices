@@ -1,52 +1,41 @@
-using CatalogService.Application.Constants.ValidationMessages;
+﻿using CatalogService.Application.Constants.ValidationMessages;
 using CatalogService.Application.Features.CategoryFeature.DTOs;
 using FluentValidation;
-using MongoDB.Bson;
 
-namespace CatalogService.Application.Features.CategoryFeature.Validatiors;
+namespace CatalogService.Application.Features.CategoryFeature.Validators;
 
-public class UpdateCategoryCommandDtoValidator : AbstractValidator<UpdateCategoryCommandDto>
+public class CreateCategoryCommandDtoValidator : AbstractValidator<CreateCategoryCommandDto>
 {
-    public UpdateCategoryCommandDtoValidator()
+    public CreateCategoryCommandDtoValidator()
     {
         RuleFor(x => x.Name)
             .NotEmpty()
             .WithMessage(CategoryValidationMessages.NameRequired)
             .WithErrorCode(CategoryValidationMessages.NameRequiredCode)
+
             .NotNull()
             .WithMessage(CategoryValidationMessages.NameNull)
             .WithErrorCode(CategoryValidationMessages.NameNullCode)
+
             .MinimumLength(CategoryValidationMessages.NameMinLength)
             .WithMessage(CategoryValidationMessages.NameTooShort)
             .WithErrorCode(CategoryValidationMessages.NameTooShortCode)
+
             .MaximumLength(CategoryValidationMessages.NameMaxLength)
             .WithMessage(CategoryValidationMessages.NameTooLong)
             .WithErrorCode(CategoryValidationMessages.NameTooLongCode)
+
             .Matches(CategoryValidationMessages.NameRegexPattern)
             .WithMessage(CategoryValidationMessages.NameInvalidFormat)
             .WithErrorCode(CategoryValidationMessages.NameInvalidFormatCode)
+
             .Must(NotContainMultipleSpaces)
             .WithMessage(CategoryValidationMessages.NameMultipleSpaces)
             .WithErrorCode(CategoryValidationMessages.NameMultipleSpacesCode)
+
             .Must(NotStartOrEndWithSpace)
             .WithMessage(CategoryValidationMessages.NameSpaceEdges)
             .WithErrorCode(CategoryValidationMessages.NameSpaceEdgesCode);
-
-        RuleFor(x => x.Id)
-            .NotEmpty()
-            .WithMessage(CategoryValidationMessages.IdRequired)
-            .WithErrorCode(CategoryValidationMessages.IdRequiredCode)
-            .NotNull()
-            .WithMessage(CategoryValidationMessages.IdNull)
-            .WithErrorCode(CategoryValidationMessages.IdNullCode)
-            .Must(BeAValidObjectId)
-            .WithMessage(CategoryValidationMessages.IdInvalid)
-            .WithErrorCode(CategoryValidationMessages.IdInvalidCode);
-    }
-
-    private bool BeAValidObjectId(string id)
-    {
-        return ObjectId.TryParse(id, out _);
     }
 
     private bool NotContainMultipleSpaces(string name)

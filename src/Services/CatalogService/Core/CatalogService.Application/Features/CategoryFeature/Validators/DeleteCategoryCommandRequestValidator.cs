@@ -1,13 +1,13 @@
 using CatalogService.Application.Constants.ValidationMessages;
-using CatalogService.Application.Features.CategoryFeature.Queries.GetByIdCategoryQuery;
+using CatalogService.Application.Features.CategoryFeature.Commands.DeleteCategoryCommand;
 using FluentValidation;
 using MongoDB.Bson;
 
-namespace CatalogService.Application.Features.CategoryFeature.Validatiors;
+namespace CatalogService.Application.Features.CategoryFeature.Validators;
 
-public class GetByIdCategoryQueryRequestValidator : AbstractValidator<GetByIdCategoryQueryRequest>
+public class DeleteCategoryCommandRequestValidator : AbstractValidator<DeleteCategoryCommandRequest>
 {
-    public GetByIdCategoryQueryRequestValidator()
+    public DeleteCategoryCommandRequestValidator()
     {
         RuleFor(x => x.Id)
             .NotEmpty()
