@@ -16,7 +16,7 @@ public static class ServiceRegistration
             cfg.AddMaps(Assembly.GetExecutingAssembly());
         });
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
-        services.AddCustomMediatR(Assembly.GetExecutingAssembly());
+        services.AddBuildingBlocksMediatR(Assembly.GetExecutingAssembly());
         services.AddScoped<ICategoryBusinessRules, CategoryBusinessRules>();
         services.AddScoped<ICourseBusinessRules, CourseBusinessRules>();
         return services;

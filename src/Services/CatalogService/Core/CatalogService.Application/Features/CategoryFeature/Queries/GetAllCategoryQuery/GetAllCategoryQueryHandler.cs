@@ -14,12 +14,6 @@ public class GetAllCategoryQueryHandler(
     public async Task<GetAllCategoryQueryResponse> Handle(GetAllCategoryQueryRequest request, CancellationToken cancellationToken)
     {
         var categories = await readCategoryRepository.GetAllAsync(cancellationToken);
-        if (categories.Count() == 0)
-        {
-            return new GetAllCategoryQueryResponse{
-                Result = ServiceResult<IEnumerable<GetAllCategoryQueryDto>>.ErrorAsNotFound()
-            };
-        }
         var mappedCategories = mapper.Map<IEnumerable<GetAllCategoryQueryDto>>(categories);
         return new GetAllCategoryQueryResponse{
             Result = ServiceResult<IEnumerable<GetAllCategoryQueryDto>>.SuccessAsOk(mappedCategories)

@@ -1,14 +1,13 @@
-﻿using BuildingBlocks.Core.Exceptions;
+using BuildingBlocks.Web.Middleware;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace BuildingBlocks.Core.Extensions;
+namespace BuildingBlocks.Web.Extensions;
 
 public static class ExceptionHandlerExtensions
 {
     public static IServiceCollection AddGlobalExceptionHandler(this IServiceCollection services)
     {
-        
         services.AddExceptionHandler<GlobalExceptionHandler>();
         services.AddProblemDetails();
 

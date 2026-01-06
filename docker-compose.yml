@@ -28,6 +28,15 @@ services:
       - "8081:8081"
     depends_on:
       - mongo
-      
+  redis.db.basket:
+    image: redis:7.0-alpine
+    container_name: redis.db.basket.container
+    command: ["redis-server", "--requirepass", "${REDIS_PASSWORD}"]
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis.basket.data.volume:/data
+  
 volumes:
   mongo.catalog.data.volume:

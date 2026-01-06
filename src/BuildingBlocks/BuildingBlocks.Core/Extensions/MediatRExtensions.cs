@@ -7,7 +7,7 @@ namespace BuildingBlocks.Core.Extensions;
 
 public static class MediatRExtensions
 {
-    public static IServiceCollection AddCustomMediatR(
+    public static IServiceCollection AddBuildingBlocksMediatR(
         this IServiceCollection services,
         params Assembly[] assemblies)
     {

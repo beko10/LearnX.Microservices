@@ -13,7 +13,7 @@ public static class CategoryEndpoints
     public static IEndpointRouteBuilder RegisterCategoryEndpoints(this IEndpointRouteBuilder app)
     {
         // Category Endpoints
-        var group = app.MapGroup("/categories")
+        var group = app.MapGroup("/api/v{version:apiVersion}/categories")
             .WithTags("Categories");
 
 

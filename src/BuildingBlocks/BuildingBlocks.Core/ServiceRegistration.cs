@@ -1,20 +1,19 @@
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
-namespace BuildingBlocks.Core.Extensions;
+namespace BuildingBlocks.Core;
 
 public static class ServiceRegistration
 {
     /// <summary>
     /// BuildingBlocks.Core içindeki tüm servisleri DI container'a kayıt eder.
-    /// Bu method, GlobalExceptionHandler ve diğer core servisleri kaydeder.
+    /// MediatR behaviors, FluentValidation ve diğer core servisleri kaydeder.
     /// </summary>
     /// <param name="services">IServiceCollection instance</param>
     /// <returns>IServiceCollection instance (fluent API için)</returns>
-    public static IServiceCollection AddBuildingBlocksCore(this IServiceCollection services)
+    public static IServiceCollection AddBuildingBlocksCore(this IServiceCollection services, params Assembly[] assemblies)
     {
-        // Global Exception Handler kaydı
-        services.AddGlobalExceptionHandler();
-
+        services.AddBuildingBlocksCore(assemblies);
         return services;
     }
 }

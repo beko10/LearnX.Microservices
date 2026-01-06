@@ -14,13 +14,6 @@ public class GetAllCourseQueryHandler(
     public async Task<GetAllCourseQueryResponse> Handle(GetAllCourseQueryRequest request, CancellationToken cancellationToken)
     {
         var courses = await readCourseRepository.GetAllAsync(cancellationToken);
-        if (courses.Count() == 0)
-        {
-            return new GetAllCourseQueryResponse
-            {
-                Result = ServiceResult<IEnumerable<GetAllCourseQueryDto>>.ErrorAsNotFound()
-            };
-        }
         var mappedCourses = mapper.Map<IEnumerable<GetAllCourseQueryDto>>(courses);
         return new GetAllCourseQueryResponse
         {

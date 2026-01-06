@@ -2,6 +2,7 @@
   <Folder Name="/src/" />
   <Folder Name="/src/BuildingBlocks/">
     <Project Path="D:/LearnX.Microservices/src/BuildingBlocks/BuildingBlocks.Core/BuildingBlocks.Core.csproj" Id="36d46a71-776c-43cf-8567-fe446fbfa25e" />
+    <Project Path="src/BuildingBlocks/BuildingBlocks.Web/BuildingBlocks.Web.csproj" Id="6fa9da57-1053-4cb1-b58c-12273ce5c3ce" />
   </Folder>
   <Folder Name="/src/Services/" />
   <Folder Name="/src/Services/CatalogService/" />
